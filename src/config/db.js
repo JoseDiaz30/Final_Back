@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const connectDB = async () => {
-    const uri = process.env.DB_URI 
+    const uri = process.env.MONGO_URI 
     if (!uri) {
-        console.error("DB_URI no esta definido");
+        console.error("MONGO_URI no esta definido");
         process.exit(1);
     }
 
