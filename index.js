@@ -2,12 +2,28 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
+import cors from 'cors';
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/auth.routes.js';
 import itemRoutes from './src/routes/items.Routes.js';
 
 const app = express();
 const PORT = process.env.PORT ?? 5000;
+
+const whitelist = ['http://localhost:5173', 'https://mi-app-frontend.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      // !origin permite peticiones sin origen (como Postman o Server-to-Server)
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+};  
+  
+app.use(cors(corsOptions))
 
 
 // Middleware para parsear JSON
